@@ -31,6 +31,11 @@ const Welcome = styled.div`
   min-height:120px;
   padding-top:30px;
   padding-bottom:20px;
+  @media (max-width: 900px) {
+    font-size: 2.0rem;
+    padding-left:20px;
+    padding-right:20px;
+  }
   
   //color:#fff;
 `;
