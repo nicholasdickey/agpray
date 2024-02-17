@@ -118,6 +118,7 @@ interface Props{
 }
 export default function Home({sessionid,utm_content,dark}:Props) {
   const muiTheme = useTheme();
+  dark=1;
   const [localMode, setLocalMode] = React.useState(dark==1?'dark':'light');
   const [request, setRequest] = React.useState('');
   const [response, setResponse] = React.useState('');
