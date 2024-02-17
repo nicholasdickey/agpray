@@ -121,6 +121,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
   const [loading, setLoading] = React.useState(false);
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
+  const mobile = useMediaQuery('(max-width:900px)');
   const onResponseCopyClick = useCallback(() => {
     setResponseCopied(true);
     copy(response);
@@ -185,7 +186,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField    helperText="Hint: You can type in any language." inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label="Type your prayer summary. Like 'asking for...' or 'thankful for...', etc." variant="standard" value={request}
+              <Stack><TextField    helperText="Hint: You can type in any language." inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
