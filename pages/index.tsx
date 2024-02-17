@@ -54,6 +54,40 @@ const VerticalContainer = styled.div`
   color: var(--text) !important;
   line-height: 1.6;
   background-color: var(--background);
+  input{
+    color: var(--text) !important;
+  }
+  label{
+    color: var(--text) !important;
+  }
+  button{
+    color: var(--text) !important;
+  }
+  div{
+    color: var(--text) !important;
+  }
+  &.MuiFormControl-root {
+    color: var(--text) !important;
+
+  }
+ 
+  label.Mui-focused {
+    color: #A0AAB4;
+  }
+  &.MuiInput-underline:after {
+    border-bottom-color: #B2BAC2 !important;
+  }
+  &.MuiOutlinedInput-root {
+    fieldset {
+      border-color: #E0E3E7 !important;
+    }
+    &:hover fieldset {
+      border-color: #B2BAC2 !important;
+    }
+    &.Mui-focused fieldset {
+      border-color: #6F7E8C;
+    }
+  }
 `;
 
 const Input = styled.input`
@@ -74,9 +108,9 @@ interface Props{
   isfb:boolean;
   fbclid:string;
 }
-export default function Home({sessionid,utm_content}:Props) {
+export default function Home({sessionid,utm_content,dark}:Props) {
   const muiTheme = useTheme();
-  const [localMode, setLocalMode] = React.useState('light');
+  const [localMode, setLocalMode] = React.useState(dark==1?'dark':'light');
   const [request, setRequest] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -146,7 +180,7 @@ export default function Home({sessionid,utm_content}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label="Start with 'asking for', or 'grateful for', etc... " variant="standard" value={request}
+              <Stack><TextField  color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label="Click and type your prayer request. Like 'asking for...' or 'thankful for...', etc. " variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
