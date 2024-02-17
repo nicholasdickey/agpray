@@ -204,7 +204,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
               <InputContainer>{loading ? 'Loading...' : <Button type="submit" onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
               {!loading && response&&<div><div style={{ width: "100%", padding: 20, marginTop: 20, borderRadius: "4px", minHeight: "100px" }} dangerouslySetInnerHTML={{
                 __html: response
-              }} />     <ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} />
+              }} />     <ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} /><br/><br/><br/>
               </div>}
 
             </Container>
