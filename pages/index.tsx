@@ -180,7 +180,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField   inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label="Type your prayer summary. Like 'asking for...' or 'thankful for...', etc. " variant="standard" value={request}
+              <Stack><TextField    helperText="Hint: You can type in any language." inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label="Type your prayer summary. Like 'asking for...' or 'thankful for...', etc." variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -197,8 +197,10 @@ export default function Home({sessionid,utm_content,dark}:Props) {
               }} />     <ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} />
               </div>}
 
-            </Container></VerticalContainer>
-
+            </Container>
+           
+            </VerticalContainer>
+       
           </ThemeProvider>
         </main>
       </MuiTP>
