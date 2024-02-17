@@ -62,6 +62,9 @@ const VerticalContainer = styled.div`
   input{
     color: var(--text) !important;
   }
+  &.MuiFormHelperText-root{
+    color: var(--text) !important;
+  }
   label{
     color: var(--text) !important;
   }
@@ -186,7 +189,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField    helperText="Hint: You can type in any language." inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
+              <Stack><TextField    helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
