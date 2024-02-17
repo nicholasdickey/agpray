@@ -94,10 +94,9 @@ export default function Home({sessionid,utm_content}:Props) {
       , 2000);
   }, [responseCopied]);
 
-   const recordEvent = useCallback(async (sessionid: string, name: string) => {
+   const recordEvent = useCallback(async (sessionid: string, name: string,params:string) => {
     try {
-      const params=`{"utm_content":"${utm_content}"`;
-      const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&request=${encodeURIComponent(request)}&params=${encodeURIComponent(params)}&prayer=${encodeURIComponent(response)}}`;
+      const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&params=${encodeURIComponent(params)}`;
       await fetch(url);  
     }
     catch (e) {
@@ -112,7 +111,9 @@ export default function Home({sessionid,utm_content}:Props) {
     setLoading(false);
     console.log("GOt data", data)
     if (data.success){
-      await recordEvent(sessionid, 'prayer-request');
+      const params=`{"utm_content":"${utm_content}","request":"${encodeURIComponent(request)}","prayer":"${encodeURIComponent(data.prayer)}"}`;
+  
+      await recordEvent(sessionid, 'prayer-request',params);
       setResponse(data.prayer);
     }
   }, [request]);
