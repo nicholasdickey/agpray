@@ -286,7 +286,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
             <VerticalContainer><Container maxWidth="sm">
 
               <Stack><TextField
-                helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#998" }}> Examples: to find a job, to thank for my health...</span></>}
+                helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, to thank for my health...</span></>}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={`Type your prayer intent${mobile ? `:` : `. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
