@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import Head from "next/head";
-import Image from "next/image";
+import Script from "next/script";
 import { GetServerSidePropsContext } from "next";
 import { getCookie, setCookie } from 'cookies-next';
 import { Roboto } from 'next/font/google';
@@ -275,6 +275,17 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
         <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
 
       </Head>
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=G-NXRDG3LTLR`} strategy="afterInteractive"></Script>
+      <Script id="google-analytics" strategy="afterInteractive" dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NXRDG3LTLR', {
+            page_path: window.location.pathname,
+          });
+        `,
+      }} />
       <MuiTP theme={muiTheme}>
         <main className={roboto.className} >
           <ThemeProvider
