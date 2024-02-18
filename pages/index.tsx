@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import Head from "next/head";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
@@ -176,10 +176,15 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
   const mobile = useMediaQuery('(max-width:900px)');
+
+  let prayer=""
+  useMemo(() => {
+    prayer=response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />","");
+  }, [response]);
   const onResponseCopyClick = useCallback(() => {
     setResponseCopied(true);
-    copy(response);
-  }, [response, copy]);
+    copy(prayer);
+  }, [prayer, copy]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -232,7 +237,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       console.log('recordEvent', x);
     }
   }, [sessionid, utm_content]);
-  const ogTitle = "Prayer Composer for Assemblies of God Followers";
+  const ogTitle = "Assemblies of God Prayer Network";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer coposer for Assemblies of God followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://agpray.vercel.app";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
@@ -298,7 +303,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
                 <ShareGroup>   {false&&<ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} />}
                   <RWebShare
                     data={{
-                      text: response,
+                      text: prayer,
                       url: ogUrl,
                       title: `${process.env.NEXT_PUBLIC_APP_NAME}`,
                     }}
