@@ -196,7 +196,10 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField   helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
+              <Stack><TextField  
+           helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} 
+          color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} 
+          label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -216,8 +219,8 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             </Container>
            
             </VerticalContainer>
-            {false&&<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        {false&&<BottomNavigation
+           {mobile&& false&&<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <BottomNavigation
           showLabels
           value={value}
           onChange={(event, newValue) => {
@@ -227,7 +230,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
           <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
           <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
-        </BottomNavigation>}
+        </BottomNavigation>
         <div style={{height:50,padding:5}}>Help to keep the lights on and the application free for everyone!</div>
       </Paper>}
           </ThemeProvider>
