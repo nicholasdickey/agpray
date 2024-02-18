@@ -172,15 +172,17 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   const [localMode, setLocalMode] = React.useState(dark == 1 ? 'dark' : 'light');
   const [request, setRequest] = React.useState('');
   const [response, setResponse] = React.useState('');
+  const [prayer, setPrayer] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
   const mobile = useMediaQuery('(max-width:900px)');
 
-  let prayer=""
-  useMemo(() => {
-    prayer=response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />","");
+ 
+  useEffect(() => {
+    setPrayer(response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />",""));
   }, [response]);
+
   const onResponseCopyClick = useCallback(() => {
     setResponseCopied(true);
     copy(prayer);
@@ -237,6 +239,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       console.log('recordEvent', x);
     }
   }, [sessionid, utm_content]);
+  console.log("Prayer:", prayer);
   const ogTitle = "Assemblies of God Prayer Network";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer coposer for Assemblies of God followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://agpray.vercel.app";
