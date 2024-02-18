@@ -196,7 +196,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
-              <Stack><TextField    helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
+              <Stack><TextField   helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} inputRef={input => input && input.focus()} color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -239,7 +239,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
 export const getServerSideProps =
     async function getServerSideProps(context: GetServerSidePropsContext): Promise<any> {
     try {
-      console.log(123)
+     
         let { fbclid, utm_content, dark }:
             { fbclid: string, utm_content: string, dark: number } = context.query as any;
         utm_content = utm_content || '';
@@ -249,18 +249,14 @@ export const getServerSideProps =
         let host = context.req.headers.host || "";
         var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         let fresh = false;
-        console.log(111)
+       
         const recordEvent = async (sessionid: string, name: string,params:string) => {
           try {
-
             const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&params=${encodeURIComponent(params)}`;
-           console.log("fetch url:",url)
-            await fetch(url);  
-           
+            await fetch(url);            
           }
           catch (e) {
             console.log("recordEvent", e);
-          
           }
         };
         let sessionid=getCookie('sessionid', { req:context.req, res:context.res });
@@ -271,9 +267,7 @@ export const getServerSideProps =
             setCookie('sessionid', sessionid, { req:context.req, res:context.res, maxAge: 60 * 6 * 24 });  
         }
         if (!botInfo.bot) {
-            console.log('ssr-prayer-init2');
             try {
-                console.log("recordEvent")
                 await recordEvent(sessionid, `ssr-prayer${fresh?'-init':''}`, `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
             } catch (x) {
                 console.log('ssr-prayer-init-error', x);
@@ -295,7 +289,6 @@ export const getServerSideProps =
                 isfb: botInfo.fb || fbclid ? 1 : 0,
                 dark: dark || 0,
                 t1:0
-
             }
         }
       
