@@ -178,13 +178,27 @@ export default function Home({sessionid,utm_content,dark}:Props) {
       window.removeEventListener("keydown", handle);
     };
   }, [onSend, loading]);
+  const ogTitle = "Prayer Composer for Assemblies of God Followers";
+  const ogDescription = "Discover spiritual upliftment with our dedicated prayer coposer for Assemblies of God followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
+  const ogUrl = "https://agpray.vercel.app";
+  const ogImage =`${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
   return (
     <>
       <Head>
         <title>Assemblies of God Prayer Network</title>
+        <link rel="canonical" href={ogUrl} />
         <meta name="description" content="Helps to generate prayer text" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={ogUrl} />
         <link rel="icon" href="/wbLogo.png" />
+        <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@findexar" />
+        <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
+     
       </Head>
       <MuiTP theme={muiTheme}>
         <main className={roboto.className} >
@@ -199,7 +213,7 @@ export default function Home({sessionid,utm_content,dark}:Props) {
               <Stack><TextField  
            helperText={<span style={{color:"#888"}}>Hint: You can type in any language.</span>} 
           color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }} 
-          label={`Type your prayer summary${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
+          label={`Type your prayer intent${mobile?`:`:`. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
