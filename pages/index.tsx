@@ -13,9 +13,15 @@ import { useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import IosShareIcon from '@mui/icons-material/IosShare';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Stack from "@mui/material/Stack";
 import { IconButton } from '@mui/material';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Paper from '@mui/material/Paper';
 import ClearIcon from '@mui/icons-material/Clear';
 import { palette } from '@/lib/palette';
 import GlobalStyle from '@/lib/globalstyles';
@@ -210,7 +216,20 @@ export default function Home({sessionid,utm_content,dark}:Props) {
             </Container>
            
             </VerticalContainer>
-       
+            {false&&<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        {false&&<BottomNavigation
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            //setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+        </BottomNavigation>}
+        <div style={{height:50,padding:5}}>Help to keep the lights on and the application free for everyone!</div>
+      </Paper>}
           </ThemeProvider>
         </main>
       </MuiTP>

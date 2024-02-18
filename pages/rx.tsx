@@ -58,8 +58,10 @@ const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid
   
   const items=reportItem.items.map((record:any,i:number)=>{
       console.log("record:",record);
-        const {url,name:eventName,utm_content='',league='',params='',fbclid='',team='',stamp='',player='',slug='',view='',time='',isMobile,ssrTime,userId,t1,findexarxid,story,sid,ua}=record;
-        console.log("ReportItem",record,stamp,name)
+        let {url,name:eventName,utm_content='',request='',params='',fbclid='',prayer='',stamp='',player='',slug='',view='',time='',isMobile,ssrTime,userId,t1,findexarxid,story,sid,ua}=record;
+       
+        request=decodeURIComponent(request);
+        prayer=decodeURIComponent(prayer).replaceAll('<p>','').replaceAll('</p>','');
         if(eventName.indexOf('ssr')<0)
           cs=true;
         if(eventName.indexOf('bot')>=0){
@@ -76,8 +78,8 @@ const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid
                 {params&&<Typography>Params{params}</Typography>}
                 {fbclid&&<Typography>fbclid:{fbclid}</Typography>}
                 {stamp&&<Typography>stamp:{stamp}</Typography>}
-                {league&&<Typography>League:{league}</Typography>}
-                {team&&<Typography>Team:{team}</Typography>}
+                {request&&<Typography>Request:{request}</Typography>}
+                {prayer&&<Typography>Prayer:{prayer}</Typography>}
                 {player&&<Typography>Player:{player}</Typography>}
                 {slug&&<Typography>Slug:{slug}</Typography>}
                 {url&&<Typography>Url:{url}</Typography>}
