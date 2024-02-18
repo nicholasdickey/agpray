@@ -242,7 +242,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   console.log("Prayer:", prayer);
   const ogTitle = "Pentecostal Prayer Network";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
-  const ogUrl = "https://agpray.vercel.app";
+  const ogUrl = "https://www.pray50.com";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
   const action = (
     <React.Fragment>
