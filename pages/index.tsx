@@ -240,8 +240,8 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
     }
   }, [sessionid, utm_content]);
   console.log("Prayer:", prayer);
-  const ogTitle = "Assemblies of God Prayer Network";
-  const ogDescription = "Discover spiritual upliftment with our dedicated prayer coposer for Assemblies of God followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
+  const ogTitle = "Pentecostal Prayer Network";
+  const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://agpray.vercel.app";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
   const action = (
@@ -260,7 +260,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   return (
     <>
       <Head>
-        <title>Assemblies of God Prayer Network</title>
+        <title>Pentecostal Prayer Network</title>
         <link rel="canonical" href={ogUrl} />
         <meta name="description" content="Helps to generate prayer text" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -282,7 +282,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
             theme={palette}>
             <GlobalStyle $light={localMode == "light"} />
 
-            <Welcome>Welcome to the Assemblies of God Prayer Network</Welcome>
+            <Welcome>Welcome to the Pentecostal Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
 
               <Stack><TextField
