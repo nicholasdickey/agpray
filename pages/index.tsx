@@ -64,7 +64,7 @@ const VerticalContainer = styled.div`
   color: var(--text) !important;
   line-height: 1.6;
   background-color: var(--background);
-
+  //padding-right:50px;
   input{
     color: var(--text) !important;
   }
@@ -328,9 +328,10 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
             <GlobalStyle $light={localMode == "light"} />
 
             <Welcome>Welcome to the Pentecostal Prayer</Welcome>
-            <VerticalContainer><Container maxWidth="md">
+            <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
+                style={{paddingRight:50}}
                 helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
                // maxRows={mobile?4:1}
