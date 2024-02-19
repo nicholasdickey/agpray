@@ -370,7 +370,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
                 message="Copied to clipboard"
                 action={action}
               />
-             <CrossContainer><Cross><img src="/pente.png" width="40"/></Cross></CrossContainer>
+             <CrossContainer><Cross><img src="/pente2.png" width="40"/></Cross></CrossContainer>
             </VerticalContainer>
           
             {mobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
