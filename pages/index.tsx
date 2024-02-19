@@ -270,7 +270,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   }, [sessionid, utm_content]);
 
   console.log("Prayer:", prayer);
-  const ogTitle = "Pentecostal Prayer Network";
+  const ogTitle = "Pentecostal Prayer";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
@@ -291,7 +291,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   return (
     <>
       <Head>
-        <title>Pentecostal Prayer Network</title>
+        <title>Pentecostal Prayer</title>
         {(noindex==1) && <meta name="robots" content="noindex,nofollow" />}
         <link rel="canonical" href={ogUrl} />
         <meta name="description" content="Helps to generate prayer text" />
@@ -326,7 +326,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
             theme={palette}>
             <GlobalStyle $light={localMode == "light"} />
 
-            <Welcome>Welcome to the Pentecostal Prayer Network</Welcome>
+            <Welcome>Welcome to the Pentecostal Prayer</Welcome>
             <VerticalContainer><Container maxWidth="sm">
               <Stack><TextField
                 helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, to thank for my health...</span></>}
