@@ -308,7 +308,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
                 multiline={mobile?true:false}
                 maxRows={mobile?4:1}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
-                label={`Type your prayer topic${mobile ? `:` : `. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
+                label={`Type your prayer topic:`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
