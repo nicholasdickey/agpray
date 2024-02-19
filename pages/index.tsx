@@ -8,7 +8,7 @@ import { Roboto } from 'next/font/google';
 import { styled, ThemeProvider } from "styled-components";
 import { ThemeProvider as MuiTP } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { useTheme } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import Container from '@mui/material/Container';
@@ -192,8 +192,9 @@ interface Props {
   isbot: boolean;
   isfb: boolean;
   fbclid: string;
+  isMobile: boolean;
 }
-export default function Home({ sessionid, utm_content, dark }: Props) {
+export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
   const muiTheme = useTheme();
   dark = 1;
   const [localMode, setLocalMode] = React.useState(dark == 1 ? 'dark' : 'light');
@@ -203,7 +204,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   const [loading, setLoading] = React.useState(false);
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
-  const mobile = useMediaQuery('(max-width:900px)');
+ 
 
   useEffect(() => {
     setPrayer(response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />",""));
@@ -248,7 +249,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
 
   useEffect(() => {
     const handle = async (e: KeyboardEvent): Promise<void> => {
-      if (e.key === "Enter" && !loading&&!mobile) {
+      if (e.key === "Enter" && !loading&&!isMobile) {
         await onSend();
       }
     };
@@ -328,10 +329,10 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
 
             <Welcome>Welcome to the Pentecostal Prayer</Welcome>
             <VerticalContainer><Container maxWidth="sm">
-              <Stack><TextField
-                helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, to thank for my health...</span></>}
-                multiline={mobile?true:false}
-                maxRows={mobile?4:1}
+              <TextField
+                helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
+                multiline={isMobile?true:false}
+               // maxRows={mobile?4:1}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={`Type your prayer topic:`} variant="standard" value={request}
                 InputProps={{
@@ -343,7 +344,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
                       <ClearIcon />
                     </IconButton>
                   ),
-                }} /></Stack>
+                }} />
               <InputContainer>{loading ? 'Loading...' : <Button type="submit" onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
               {!loading && response && <div><div onClick={() => onResponseCopyClick()} style={{ width: "100%", padding: 20, marginTop: 20, borderRadius: "4px", minHeight: "100px" }} dangerouslySetInnerHTML={{
                 __html: response
@@ -373,7 +374,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
              <CrossContainer><Cross><img src="/pente2.png" width="40"/></Cross></CrossContainer>
             </VerticalContainer>
           
-            {mobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+            {isMobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
                 showLabels
                 value={value}
@@ -401,8 +402,11 @@ export const getServerSideProps =
         { fbclid: string, utm_content: string, dark: number } = context.query as any;
       utm_content = utm_content || '';
       fbclid = fbclid || '';
-      const ua = context.req.headers['user-agent'];
+      const ua = context.req.headers['user-agent']||"";
       const botInfo = isbot({ ua });
+      let isMobile = Boolean(ua.match(
+        /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    ))
       let host = context.req.headers.host || "";
       var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       let fresh = false;
@@ -445,7 +449,8 @@ export const getServerSideProps =
           isbot: botInfo.bot,
           isfb: botInfo.fb || fbclid ? 1 : 0,
           dark: dark || 0,
-          t1: 0
+          t1: 0,
+          isMobile
         }
       }
 
