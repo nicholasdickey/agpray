@@ -37,7 +37,6 @@ const Welcome = styled.div`
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
- // background-color: #aaa;//var(--background);
   min-height:120px;
   padding-top:30px;
   padding-bottom:20px;
@@ -46,8 +45,6 @@ const Welcome = styled.div`
     padding-left:20px;
     padding-right:20px;
   }
-  
-  //color:#fff;
 `;
 const InputContainer = styled.div`
   display: flex;
@@ -55,9 +52,8 @@ const InputContainer = styled.div`
   align-items: flex-start;
   justify-content: center;
   width:100%;
-
-// height: 100vh;
 `;
+
 const VerticalContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,36 +61,42 @@ const VerticalContainer = styled.div`
   justify-content: flex-start;
   min-height: 100vh;
   height:100%;
- // padding:20px;
   color: var(--text) !important;
   line-height: 1.6;
   background-color: var(--background);
+
   input{
     color: var(--text) !important;
   }
+  
   &.MuiFormHelperText-root{
     color: var(--text) !important;
   }
+
   label{
     color: var(--text) !important;
   }
+
   button{
     color: var(--text) !important;
   }
+
   div{
     color: var(--text) !important;
   }
+
   &.MuiFormControl-root {
     color: var(--text) !important;
-
   }
  
   label.Mui-focused {
     color: #A0AAB4;
   }
+
   &.MuiInput-underline:after {
     border-bottom-color: #B2BAC2 !important;
   }
+
   &.MuiOutlinedInput-root {
     fieldset {
       border-color: #E0E3E7 !important;
@@ -107,7 +109,6 @@ const VerticalContainer = styled.div`
     }
   }
 `;
-
 
 const ShareContainer = styled.div`
     font-size: 28x;  
@@ -124,6 +125,7 @@ const ShareContainer = styled.div`
         color:var(--highlight);
     }
 `;
+
 const ShareIcon = styled.div`
     margin-top:-1px;
     padding-bottom:4px;
@@ -178,7 +180,6 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   const [responseCopied, setResponseCopied] = useState(false);
   const mobile = useMediaQuery('(max-width:900px)');
 
- 
   useEffect(() => {
     setPrayer(response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />",""));
   }, [response]);
@@ -205,6 +206,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
 
     }
   }, [request, response, sessionid]);
+
   const onSend = useCallback(async () => {
     setLoading(true);
     const res = await fetch(`${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/prayer/request?request=${request}`)
@@ -218,9 +220,10 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       setResponse(data.prayer);
     }
   }, [request]);
+
   useEffect(() => {
     const handle = async (e: KeyboardEvent): Promise<void> => {
-      if (e.key === "Enter" && !loading) {
+      if (e.key === "Enter" && !loading&&!mobile) {
         await onSend();
       }
     };
@@ -229,6 +232,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       window.removeEventListener("keydown", handle);
     };
   }, [onSend, loading]);
+
   const onShare = useCallback((url: string) => {
     try {
       recordEvent(sessionid as string || "", `prayer-share`, `{"url":"${url}","utm_content":"${utm_content}"}`)
@@ -239,14 +243,15 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       console.log('recordEvent', x);
     }
   }, [sessionid, utm_content]);
+
   console.log("Prayer:", prayer);
   const ogTitle = "Pentecostal Prayer Network";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
+
   const action = (
     <React.Fragment>
-
       <IconButton
         size="small"
         aria-label="close"
@@ -257,6 +262,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
       </IconButton>
     </React.Fragment>
   );
+
   return (
     <>
       <Head>
@@ -286,6 +292,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
           });
         `,
       }} />
+
       <MuiTP theme={muiTheme}>
         <main className={roboto.className} >
           <ThemeProvider
@@ -295,9 +302,10 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
 
             <Welcome>Welcome to the Pentecostal Prayer Network</Welcome>
             <VerticalContainer><Container maxWidth="sm">
-
               <Stack><TextField
                 helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, to thank for my health...</span></>}
+                multiline={mobile?true:false}
+                maxRows={mobile?4:1}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={`Type your prayer intent${mobile ? `:` : `. Like 'asking for...' or 'thankful for...', etc.`}`} variant="standard" value={request}
                 InputProps={{
