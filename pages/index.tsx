@@ -328,9 +328,10 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
             <GlobalStyle $light={localMode == "light"} />
 
             <Welcome>Welcome to the Pentecostal Prayer</Welcome>
-            <VerticalContainer><Container maxWidth="sm">
+            <VerticalContainer><Container maxWidth="md">
               <TextField
-                helperText={<><span style={{ color: "#888" }}>Hint: You can type in any language.</span><br/><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
+                fullWidth
+                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
                // maxRows={mobile?4:1}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
