@@ -157,6 +157,31 @@ const ShareGroup = styled.div`
     height:40px;
     margin-top:10px;
 `;
+const CrossContainer = styled.div`
+  display: absolute;
+  bottom:0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width:100%;
+  padding-top:20px;
+  padding-bottom:20px;
+  padding-left:20px;
+  padding-right:20px;
+`;
+const Cross = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width:100%;
+  padding-top:20px;
+  padding-bottom:20px;
+  padding-left:20px;
+  padding-right:20px;
+  opacity:0.4;
+`;
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '700'], style: ['normal', 'italic'] })
 interface Props {
@@ -345,7 +370,9 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
                 message="Copied to clipboard"
                 action={action}
               />
+             <CrossContainer><Cross><img src="/pente.png" width="40"/></Cross></CrossContainer>
             </VerticalContainer>
+          
             {mobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
                 showLabels
