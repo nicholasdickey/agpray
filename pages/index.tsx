@@ -41,7 +41,7 @@ const Welcome = styled.div`
   padding-top:30px;
   padding-bottom:20px;
   @media (max-width: 900px) {
-    font-size: 2.0rem;
+    font-size: 1.8rem;
     padding-left:20px;
     padding-right:20px;
   }
@@ -249,7 +249,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
-
+  const noindex=+(process.env.NEXT_PUBLIC_NOINDEX||"0");
   const action = (
     <React.Fragment>
       <IconButton
@@ -267,6 +267,7 @@ export default function Home({ sessionid, utm_content, dark }: Props) {
     <>
       <Head>
         <title>Pentecostal Prayer Network</title>
+        {(noindex==1) && <meta name="robots" content="noindex,nofollow" />}
         <link rel="canonical" href={ogUrl} />
         <meta name="description" content="Helps to generate prayer text" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
