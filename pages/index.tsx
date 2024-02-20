@@ -55,7 +55,7 @@ const Subtitle = styled.div`
   //padding-top:3px;
   //padding-bottom:20px;
   @media (max-width: 900px) {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     padding-left:20px;
     padding-right:20px;
   }
