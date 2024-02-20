@@ -327,7 +327,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
             theme={palette}>
             <GlobalStyle $light={localMode == "light"} />
 
-            <Welcome>Welcome to the Pentecostal Prayer</Welcome>
+            <Welcome>Welcome to Pray50!</Welcome>
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
