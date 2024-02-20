@@ -37,11 +37,25 @@ const Welcome = styled.div`
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  min-height:120px;
+  min-height:100px;
   padding-top:30px;
-  padding-bottom:20px;
+  //padding-bottom:20px;
   @media (max-width: 900px) {
     font-size: 1.8rem;
+    padding-left:20px;
+    padding-right:20px;
+  }
+`;
+const Subtitle = styled.div`
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  min-height:50px;
+  //padding-top:3px;
+  //padding-bottom:20px;
+  @media (max-width: 900px) {
+    font-size: 1.1rem;
     padding-left:20px;
     padding-right:20px;
   }
@@ -246,7 +260,17 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
       setResponse(data.prayer);
     }
   }, [request]);
-
+//saves the changes to the session on the local web server. 
+const updateMode = useCallback(async (newMode:string) => {
+  setLocalMode(newMode);
+  await fetch(`/api/session/save`, 
+  {  
+    method:'POST',
+    headers: {
+    'Content-type': 'application/json',
+    },
+    body: JSON.stringify({session: {mode:newMode} })});
+    }, []);
   useEffect(() => {
     const handle = async (e: KeyboardEvent): Promise<void> => {
       if (e.key === "Enter" && !loading&&!isMobile) {
@@ -328,6 +352,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
             <GlobalStyle $light={localMode == "light"} />
 
             <Welcome>Welcome to Pray50!</Welcome>
+            <Subtitle>A Pentecostal Prayer Companion</Subtitle>
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
