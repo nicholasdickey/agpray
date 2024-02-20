@@ -352,7 +352,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <GlobalStyle $light={localMode == "light"} />
 
             <Welcome>Welcome to Pray50!</Welcome>
-            <Subtitle>A Pentecostal Prayer Companion</Subtitle>
+            <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
