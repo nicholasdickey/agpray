@@ -60,6 +60,20 @@ const Subtitle = styled.div`
     padding-right:20px;
   }
 `;
+const Subtitle2 = styled.div`
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+  min-height:50px;
+  //padding-top:3px;
+  //padding-bottom:20px;
+  @media (max-width: 900px) {
+    font-size: 0.6rem;
+    padding-left:20px;
+    padding-right:20px;
+  }
+`;
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -73,7 +87,7 @@ const VerticalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
+  min-height: 70vh;
   height:100%;
   color: var(--text) !important;
   line-height: 1.6;
@@ -258,7 +272,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/prayer/request?request=${request}`)
     const data = await res.json();
     setLoading(false);
-    console.log("GOt data", data)
+   // console.log("GOt data", data)
     if (data.success) {
       const params = `{"utm_content":"${utm_content}","request":"${encodeURIComponent(request)}","prayer":"${encodeURIComponent(data.prayer)}"}`;
 
@@ -301,7 +315,7 @@ const updateMode = useCallback(async (newMode:string) => {
     }
   }, [sessionid, utm_content]);
 
-  console.log("Prayer:", prayer);
+ //console.log("Prayer:", prayer);
   const ogTitle = "Pentecostal Prayer";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
@@ -362,7 +376,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
             <VerticalContainer><Container maxWidth="sm">
               <TextField
-                ref={(input) => { if (input) setTimeout(()=>{console.log("setFocus");input.focus();},500 )}}
+                ref={(input) => { if (input) setTimeout(()=>{input.focus();},500 )}}
                 fullWidth
                 style={{paddingRight:50}}
                 helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
@@ -412,8 +426,10 @@ const updateMode = useCallback(async (newMode:string) => {
                 action={action}
               />
              <CrossContainer><Cross><img src="/pente2.png" width="40"/></Cross></CrossContainer>
+           
             </VerticalContainer>
-          
+            <Subtitle2>Stay in touch with the Holy Spirit all day and be inspired with every moment.</Subtitle2>
+           
             {isMobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
                 showLabels
