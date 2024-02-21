@@ -37,9 +37,9 @@ const Welcome = styled.div`
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  min-height:100px;
+  //min-height:100px;
   padding-top:30px;
-  //padding-bottom:20px;
+  padding-bottom:20px;
   @media (max-width: 900px) {
     font-size: 1.8rem;
     padding-left:20px;
