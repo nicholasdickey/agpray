@@ -54,7 +54,7 @@ const Welcome = styled.div<IProps>`
 `;
 const Subtitle = styled.div`
   color: var(--text);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
   min-height:20px;
