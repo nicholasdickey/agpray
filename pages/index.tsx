@@ -73,7 +73,7 @@ const Subtitle2 = styled.div`
   font-size: 0.8rem;
   font-weight: 500;
   text-align: center;
-  min-height:120px;
+  min-height:110px;
   //padding-top:3px;
   //padding-bottom:20px;
   @media (max-width: 900px) {
@@ -238,10 +238,10 @@ const ModeSwitch = styled.div`
   //color:white; 
  
   @media (max-width: 700px) {
-    top:0px;
+    top:-10px;
     right:0px;
     font-size:3rem;;
-    min-height: 120px;
+    min-height: 20px;
   }
   `;
 const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '700'], style: ['normal', 'italic'] })
