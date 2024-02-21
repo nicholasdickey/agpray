@@ -82,7 +82,7 @@ const VerticalContainer = styled.div`
   input{
     margin-top:6px;
     color: var(--text) !important;
-    height:40px;
+    height:60px;
   }
   
   &.MuiFormHelperText-root{
