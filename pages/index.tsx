@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useRef} from 'react';
 import Head from "next/head";
 import Script from "next/script";
 import { GetServerSidePropsContext } from "next";
@@ -224,7 +224,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
   const [loading, setLoading] = React.useState(false);
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
- 
+
 
   useEffect(() => {
     setPrayer(response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />",""));
@@ -277,6 +277,7 @@ const updateMode = useCallback(async (newMode:string) => {
     },
     body: JSON.stringify({session: {mode:newMode} })});
     }, []);
+    
   useEffect(() => {
     const handle = async (e: KeyboardEvent): Promise<void> => {
       if (e.key === "Enter" && !loading&&!isMobile) {
@@ -361,6 +362,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
             <VerticalContainer><Container maxWidth="sm">
               <TextField
+                ref={(input) => { if (input) setTimeout(()=>{console.log("setFocus");input.focus();},500 )}}
                 fullWidth
                 style={{paddingRight:50}}
                 helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
@@ -369,7 +371,11 @@ const updateMode = useCallback(async (newMode:string) => {
                 focused
                 color="success"  sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={<span> Type your prayer topic:</span>} variant="outlined" value={request}
+                /*inputProps={{
+                  autoFocus: true,
+                }}*/
                 InputProps={{
+                
                   endAdornment: (
                     <IconButton
                       sx={{ visibility: request ? "visible" : "hidden" }}
@@ -379,7 +385,7 @@ const updateMode = useCallback(async (newMode:string) => {
                     </IconButton>
                   ),
                 }} />
-              <InputContainer>{loading ? 'Loading...' : <Button type="submit" onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
+              <InputContainer>{loading ? 'Loading...' : <Button  onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
               {!loading && response && <div><div onClick={() => onResponseCopyClick()} style={{ width: "100%", padding: 20, marginTop: 20, borderRadius: "4px", minHeight: "100px" }} dangerouslySetInnerHTML={{
                 __html: response
               }} />
