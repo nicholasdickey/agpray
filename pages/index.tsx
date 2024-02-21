@@ -368,7 +368,7 @@ const updateMode = useCallback(async (newMode:string) => {
                 maxRows={isMobile?4:1}
                 focused
                 color="success"  sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
-                label={`Type your prayer topic:`} variant="standard" value={request}
+                label={<span> Type your prayer topic:</span>} variant="outlined" value={request}
                 InputProps={{
                   endAdornment: (
                     <IconButton
