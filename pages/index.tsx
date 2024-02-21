@@ -387,7 +387,7 @@ const updateMode = useCallback(async (newMode:string) => {
                   >
                     <ShareContainer><ShareIcon><IosShareIcon /></ShareIcon></ShareContainer>
                   </RWebShare></ShareGroup>
-                <br /><br /><br />
+              
               </div>}
 
             </Container>
