@@ -61,6 +61,8 @@ const Subtitle = styled.div`
   }
 `;
 const Subtitle2 = styled.div`
+ // position: absolute;
+  bottom:0px;
   color: var(--text);
   font-size: 0.8rem;
   font-weight: 500;
@@ -87,8 +89,8 @@ const VerticalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 70vh;
-  height:100%;
+ // min-height: 100%;
+  //height:100%;
   color: var(--text) !important;
   line-height: 1.6;
   background-color: var(--background);
@@ -143,7 +145,12 @@ const VerticalContainer = styled.div`
     }
   }
 `;
-
+const SpreadOut=styled.div`
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content: space-between;
+`;
 const ShareContainer = styled.div`
     font-size: 28x;  
     height:38px;
@@ -366,14 +373,16 @@ const updateMode = useCallback(async (newMode:string) => {
       }} />
 
       <MuiTP theme={muiTheme}>
-        <main className={roboto.className} >
+        <main style={{height:"100vh"}}className={roboto.className} >
           <ThemeProvider
             //@ts-ignore
             theme={palette}>
             <GlobalStyle $light={localMode == "light"} />
-
+            <SpreadOut>
+              <div>
             <Welcome>Welcome to Pray50!</Welcome>
             <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
+          
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 ref={(input) => { if (input) setTimeout(()=>{input.focus();},500 )}}
@@ -428,8 +437,9 @@ const updateMode = useCallback(async (newMode:string) => {
              <CrossContainer><Cross><img src="/pente2.png" width="40"/></Cross></CrossContainer>
            
             </VerticalContainer>
+            </div>
             <Subtitle2>Stay in touch with the Holy Spirit all day and be inspired with every moment.</Subtitle2>
-           
+            </SpreadOut>
             {isMobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
                 showLabels
