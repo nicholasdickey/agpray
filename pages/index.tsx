@@ -75,8 +75,8 @@ const Subtitle2 = styled.div`
   //padding-bottom:20px;
   @media (max-width: 900px) {
     font-size: 0.6rem;
-    padding-left:20px;
-    padding-right:20px;
+    padding-left:10px;
+    padding-right:10px;
   }
 `;
 const InputContainer = styled.div`
