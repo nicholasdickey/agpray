@@ -359,7 +359,7 @@ const updateMode = useCallback(async (newMode:string) => {
                 style={{paddingRight:50}}
                 helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
-               // maxRows={mobile?4:1}
+                maxRows={isMobile?4:1}
                 color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={`Type your prayer topic:`} variant="standard" value={request}
                 InputProps={{
