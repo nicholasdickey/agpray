@@ -80,9 +80,9 @@ const VerticalContainer = styled.div`
   background-color: var(--background);
   //padding-right:50px;
   input{
-    //margin-top:6px;
+    margin-top:6px;
     color: var(--text) !important;
-   //height:160px !important;
+    height:40px !important;
   }
   textarea{
     margin-top:6px;
