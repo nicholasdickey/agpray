@@ -32,13 +32,16 @@ import GlobalStyle from '@/lib/globalstyles';
 import useCopyToClipboard from '@/lib/copy-to-clipboard';
 import { isbot } from '../lib/isbot.js';
 
-const Welcome = styled.div`
+interface IProps {
+  isMobile: boolean;
+}
+const Welcome = styled.div<IProps>`
   color: var(--text);
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
   //min-height:100px;
-  padding-top:30px;
+  padding-top:${({isMobile})=>isMobile?20:40}px;
   padding-bottom:20px;
   @media (max-width: 900px) {
     font-size: 1.8rem;
@@ -380,7 +383,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <GlobalStyle $light={localMode == "light"} />
             <SpreadOut>
               <div>
-            <Welcome>Welcome to Pray50!</Welcome>
+            <Welcome isMobile={isMobile}>Welcome to Pray50!</Welcome>
             <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
           
             <VerticalContainer><Container maxWidth="sm">
