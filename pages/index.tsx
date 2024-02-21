@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef} from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import Head from "next/head";
 import Script from "next/script";
 import { GetServerSidePropsContext } from "next";
@@ -23,6 +23,9 @@ import Stack from "@mui/material/Stack";
 import { IconButton } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import ModeNightTwoToneIcon from '@mui/icons-material/ModeNightOutlined';
+import LightModeTwoToneIcon from '@mui/icons-material/LightModeOutlined';
+
 import Paper from '@mui/material/Paper';
 import ClearIcon from '@mui/icons-material/Clear';
 import { RWebShare } from "react-web-share";
@@ -31,7 +34,7 @@ import { palette } from '@/lib/palette';
 import GlobalStyle from '@/lib/globalstyles';
 import useCopyToClipboard from '@/lib/copy-to-clipboard';
 import { isbot } from '../lib/isbot.js';
-
+import { withSessionSsr, Options } from '../lib/with-session';
 interface IProps {
   isMobile: boolean;
 }
@@ -41,7 +44,7 @@ const Welcome = styled.div<IProps>`
   font-weight: 700;
   text-align: center;
   //min-height:100px;
-  padding-top:${({isMobile})=>isMobile?20:40}px;
+  padding-top:${({ isMobile }) => isMobile ? 20 : 40}px;
   padding-bottom:30px;
   @media (max-width: 900px) {
     font-size: 1.8rem;
@@ -149,7 +152,7 @@ const VerticalContainer = styled.div`
     }
   }
 `;
-const SpreadOut=styled.div`
+const SpreadOut = styled.div`
   height:100%;
   display:flex;
   flex-direction:column;
@@ -227,22 +230,36 @@ const Cross = styled.div`
   padding-right:20px;
   opacity:0.4;
 `;
-
+const ModeSwitch = styled.div`
+  position:absolute;
+  right:200px;
+  top:20px;  
+  z-index:100; 
+  //color:white; 
+ 
+  @media (max-width: 700px) {
+    top:0px;
+    right:0px;
+    font-size:3rem;;
+    min-height: 120px;
+  }
+  `;
 const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '700'], style: ['normal', 'italic'] })
 interface Props {
-  sessionid: string;
+  //sessionid: string;
   utm_content: string;
   t1: number;
-  dark: number;
+  //dark: number;
   isbot: boolean;
   isfb: boolean;
   fbclid: string;
   isMobile: boolean;
+  options: Options;
 }
-export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
+export default function Home({ options: session, utm_content, isMobile }: Props) {
   const muiTheme = useTheme();
-  dark = 1;
-  const [localMode, setLocalMode] = React.useState(dark == 1 ? 'dark' : 'light');
+  const { dark, sessionid } = session;
+  const [localMode, setLocalMode] = useState(session.dark != -1 ? session.dark == 1 ? 'dark' : 'light' : "unknown")
   const [request, setRequest] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [prayer, setPrayer] = React.useState('');
@@ -250,9 +267,10 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
 
-
+  console.log("session:", session);
+  console.log("localMode:", localMode);
   useEffect(() => {
-    setPrayer(response.replaceAll("<p>","").replaceAll("</p>","\n\n").replaceAll("<br>","\n\n").replaceAll("<br/>","").replaceAll("<br />","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("<div/>","").replaceAll("<div />",""));
+    setPrayer(response.replaceAll("<p>", "").replaceAll("</p>", "\n\n").replaceAll("<br>", "\n\n").replaceAll("<br/>", "").replaceAll("<br />", "").replaceAll("<div>", "").replaceAll("</div>", "").replaceAll("<div/>", "").replaceAll("<div />", ""));
   }, [response]);
 
   const onResponseCopyClick = useCallback(() => {
@@ -266,6 +284,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
     }
       , 2000);
   }, [responseCopied]);
+
 
   const recordEvent = useCallback(async (sessionid: string, name: string, params: string) => {
     try {
@@ -283,7 +302,7 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/prayer/request?request=${request}`)
     const data = await res.json();
     setLoading(false);
-   // console.log("GOt data", data)
+    // console.log("GOt data", data)
     if (data.success) {
       const params = `{"utm_content":"${utm_content}","request":"${encodeURIComponent(request)}","prayer":"${encodeURIComponent(data.prayer)}"}`;
 
@@ -291,21 +310,35 @@ export default function Home({ sessionid, utm_content, dark,isMobile }: Props) {
       setResponse(data.prayer);
     }
   }, [request]);
-//saves the changes to the session on the local web server. 
-const updateMode = useCallback(async (newMode:string) => {
-  setLocalMode(newMode);
-  await fetch(`/api/session/save`, 
-  {  
-    method:'POST',
-    headers: {
-    'Content-type': 'application/json',
-    },
-    body: JSON.stringify({session: {mode:newMode} })});
-    }, []);
-    
+  //saves the changes to the session on the local web server. 
+  const updateMode = useCallback(async (newMode: number) => {
+    setLocalMode(newMode==1?'dark':'light');
+    await fetch(`/api/session/save`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({ session: { mode: newMode } })
+      });
+    console.log("updateMode", newMode);  
+  }, []);
+
+  useEffect( () => {
+    const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    if (localMode == "unknown") {
+      //setLocalMode(darkModeQuery.matches ? 'dark' : 'light');
+      document.body.setAttribute("data-theme", darkModeQuery.matches ? 'dark' : 'light');
+    }
+    if (localMode == 'unknown') {
+      updateMode(darkModeQuery.matches ? 1 : 0 )
+    }
+  }, [localMode, session.dark, updateMode]);
+
   useEffect(() => {
+    //@ts-ignore
     const handle = async (e: KeyboardEvent): Promise<void> => {
-      if (e.key === "Enter" && !loading&&!isMobile) {
+      if (e.key === "Enter" && !loading && !isMobile) {
         await onSend();
       }
     };
@@ -326,12 +359,12 @@ const updateMode = useCallback(async (newMode:string) => {
     }
   }, [sessionid, utm_content]);
 
- //console.log("Prayer:", prayer);
+  //console.log("Prayer:", prayer);
   const ogTitle = "Pentecostal Prayer";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
   const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
-  const noindex=+(process.env.NEXT_PUBLIC_NOINDEX||"0");
+  const noindex = +(process.env.NEXT_PUBLIC_NOINDEX || "0");
   const action = (
     <React.Fragment>
       <IconButton
@@ -349,7 +382,7 @@ const updateMode = useCallback(async (newMode:string) => {
     <>
       <Head>
         <title>Pentecostal Prayer</title>
-        {(noindex==1) && <meta name="robots" content="noindex,nofollow" />}
+        {(noindex == 1) && <meta name="robots" content="noindex,nofollow" />}
         <link rel="canonical" href={ogUrl} />
         <meta name="description" content="Helps to generate prayer text" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -377,72 +410,82 @@ const updateMode = useCallback(async (newMode:string) => {
       }} />
 
       <MuiTP theme={muiTheme}>
-        <main style={{height:"100vh"}}className={roboto.className} >
+        <main style={{ height: "100vh" }} className={roboto.className} >
           <ThemeProvider
             //@ts-ignore
             theme={palette}>
             <GlobalStyle $light={localMode == "light"} />
+            <ModeSwitch>
+              <Button color={"inherit"} onClick={() => {
+               // setLocalMode(localMode=="dark"?"light":"dark");
+               // setModeIsSet(true);
+                updateMode(localMode=="dark"?0:1);
+              
+              }}>
+                {localMode=='dark' ? <LightModeTwoToneIcon fontSize="small" /> : <ModeNightTwoToneIcon fontSize="small"/>}
+              </Button>
+            </ModeSwitch>
             <SpreadOut>
               <div>
-            <Welcome isMobile={isMobile}>Welcome to Pray50!</Welcome>
-            <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
-          
-            <VerticalContainer><Container maxWidth="sm">
-              <TextField
-                ref={(input) => { if (input) setTimeout(()=>{input.focus();},500 )}}
-                fullWidth
-                style={{paddingRight:50}}
-                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health{isMobile?'':', prepare a dinner'}...</span></>}
-                multiline={isMobile?true:false}
-                maxRows={isMobile?4:1}
-                focused
-                color="success"  sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
-                label={`Type your prayer topic:`} variant="outlined" value={request}
-                inputProps={{
-                  autoFocus: true,
-                }}
-                InputProps={{
-                
-                  endAdornment: (
-                    <IconButton
-                      sx={{ visibility: request ? "visible" : "hidden" }}
-                      onClick={() => { setRequest('') }}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  ),
-                }} />
-              <InputContainer>{loading ? 'Loading...' : <Button  onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
-              {!loading && response && <div><div onClick={() => onResponseCopyClick()} style={{ width: "100%", padding: 20, marginTop: 20, borderRadius: "4px", minHeight: "100px" }} dangerouslySetInnerHTML={{
-                __html: response
-              }} />
-                <ShareGroup>   {false&&<ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} />}
-                  <RWebShare
-                    data={{
-                      text: prayer,
-                      url: ogUrl,
-                      title: `${process.env.NEXT_PUBLIC_APP_NAME}`,
-                    }}
-                    onClick={async () => await onShare(ogUrl)}
-                  >
-                    <ShareContainer><ShareIcon><IosShareIcon /></ShareIcon></ShareContainer>
-                  </RWebShare></ShareGroup>
-              
-              </div>}
+                <Welcome isMobile={isMobile}>Welcome to Pray50!</Welcome>
+                <Subtitle>A Pentecostal Prayer Companion.</Subtitle>
 
-            </Container>
-              <Snackbar
-                open={responseCopied}
-                autoHideDuration={6000}
-                onClose={() => setResponseCopied(false)}
-                message="Copied to clipboard"
-                action={action}
-              />
-             <CrossContainer><Cross><img src="/pente2.png" width="40"/></Cross></CrossContainer>
-           
-            </VerticalContainer>
-            </div>
-            <Subtitle2>Stay in touch with the Holy Spirit and be inspired with every moment.</Subtitle2>
+                <VerticalContainer><Container maxWidth="sm">
+                  <TextField
+                    ref={(input) => { if (input) setTimeout(() => { input.focus(); }, 500) }}
+                    fullWidth
+                    style={{ paddingRight: 50 }}
+                    helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health{isMobile ? '' : ', prepare a dinner'}...</span></>}
+                    multiline={isMobile ? true : false}
+                    maxRows={isMobile ? 4 : 1}
+                    focused
+                    color="success" sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
+                    label={`Type your prayer topic:`} variant="outlined" value={request}
+                    inputProps={{
+                      autoFocus: true,
+                    }}
+                    InputProps={{
+
+                      endAdornment: (
+                        <IconButton
+                          sx={{ visibility: request ? "visible" : "hidden" }}
+                          onClick={() => { setRequest('') }}
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      ),
+                    }} />
+                  <InputContainer>{loading ? 'Loading...' : <Button onClick={async (event: any) => { await onSend(); }}>Submit</Button>}</InputContainer>
+                  {!loading && response && <div><div onClick={() => onResponseCopyClick()} style={{ width: "100%", padding: 20, marginTop: 20, borderRadius: "4px", minHeight: "100px" }} dangerouslySetInnerHTML={{
+                    __html: response
+                  }} />
+                    <ShareGroup>   {false && <ContentCopyIcon style={{ paddingTop: 6, marginTop: -10, cursor: 'pointer' }} fontSize="small" sx={{ color: responseCopied ? 'green' : '' }} onClick={() => onResponseCopyClick()} />}
+                      <RWebShare
+                        data={{
+                          text: prayer,
+                          url: ogUrl,
+                          title: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+                        }}
+                        onClick={async () => await onShare(ogUrl)}
+                      >
+                        <ShareContainer><ShareIcon><IosShareIcon /></ShareIcon></ShareContainer>
+                      </RWebShare></ShareGroup>
+
+                  </div>}
+
+                </Container>
+                  <Snackbar
+                    open={responseCopied}
+                    autoHideDuration={6000}
+                    onClose={() => setResponseCopied(false)}
+                    message="Copied to clipboard"
+                    action={action}
+                  />
+                  <CrossContainer><Cross><img src="/pente2.png" width="40" /></Cross></CrossContainer>
+
+                </VerticalContainer>
+              </div>
+              <Subtitle2>Stay in touch with the Holy Spirit and be inspired with every moment.</Subtitle2>
             </SpreadOut>
             {isMobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
@@ -464,7 +507,7 @@ const updateMode = useCallback(async (newMode:string) => {
     </>
   );
 }
-export const getServerSideProps =
+export const getServerSideProps = withSessionSsr(
   async function getServerSideProps(context: GetServerSidePropsContext): Promise<any> {
     try {
 
@@ -472,11 +515,11 @@ export const getServerSideProps =
         { fbclid: string, utm_content: string, dark: number } = context.query as any;
       utm_content = utm_content || '';
       fbclid = fbclid || '';
-      const ua = context.req.headers['user-agent']||"";
+      const ua = context.req.headers['user-agent'] || "";
       const botInfo = isbot({ ua });
       let isMobile = Boolean(ua.match(
         /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-    ))
+      ))
       let host = context.req.headers.host || "";
       var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       let fresh = false;
@@ -490,13 +533,26 @@ export const getServerSideProps =
           console.log("recordEvent", e);
         }
       };
-      let sessionid = getCookie('sessionid', { req: context.req, res: context.res });
-
-      if (!sessionid) {
-        fresh = true;
-        sessionid = randomstring();
-        setCookie('sessionid', sessionid, { req: context.req, res: context.res, maxAge: 60 * 6 * 24 });
+      let startoptions = context.req.session?.options || null;
+      ``
+      if (!startoptions) {
+        var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        startoptions = {
+          sessionid: randomstring(),
+          dark: -1,
+        }
+        context.req.session.options = startoptions;
+        await context.req.session.save();
       }
+      let options: Options = startoptions;
+      if (!options.sessionid) {
+        options.sessionid = randomstring();
+      }
+
+      let sessionid = options.sessionid;
+      // let sessionid = getCookie('sessionid', { req: context.req, res: context.res });
+
+
       if (!botInfo.bot) {
         try {
           await recordEvent(sessionid, `ssr-prayer${fresh ? '-init' : ''}`, `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
@@ -513,12 +569,13 @@ export const getServerSideProps =
       }
       return {
         props: {
-          sessionid,
+          //sessionid,
+          options,
           fbclid,
           utm_content,
           isbot: botInfo.bot,
           isfb: botInfo.fb || fbclid ? 1 : 0,
-          dark: dark || 0,
+          //dark: dark || 0,
           t1: 0,
           isMobile
         }
@@ -531,5 +588,5 @@ export const getServerSideProps =
         props: { error: 503 }
       }
     }
-  }
+  })
 

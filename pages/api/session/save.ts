@@ -20,7 +20,9 @@ async function handler(
         res.status(405).send({ message: 'Only POST requests allowed' });
         return;
     }
-    let options: Options = req.session.options ? req.session.options : ({ width: 0} as Options);
+    var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+       
+    let options: Options = req.session.options ? req.session.options : {sessionid:randomstring(),dark:-1};
     const body = req.body;
     
     let inSession = body.session ? (body.session) : {};

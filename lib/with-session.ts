@@ -35,5 +35,6 @@ export function withSessionSsr<
     return withIronSessionSsr(handler, sessionOptions);
 }
 export interface Options{
-    dark?:number,
+    dark:number,
+    sessionid:string
 }
