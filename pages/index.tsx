@@ -47,7 +47,7 @@ const Welcome = styled.div<IProps>`
   padding-top:${({ isMobile }) => isMobile ? 20 : 40}px;
   padding-bottom:30px;
   @media (max-width: 900px) {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     padding-left:20px;
     padding-right:20px;
   }
