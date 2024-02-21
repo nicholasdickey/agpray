@@ -379,7 +379,7 @@ const updateMode = useCallback(async (newMode:string) => {
                 ref={(input) => { if (input) setTimeout(()=>{input.focus();},500 )}}
                 fullWidth
                 style={{paddingRight:50}}
-                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
+                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health{isMobile?'':', cook a dinner'}...</span></>}
                 multiline={isMobile?true:false}
                 maxRows={isMobile?4:1}
                 focused
