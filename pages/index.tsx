@@ -82,9 +82,10 @@ const Subtitle2 = styled.div`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width:100%;
+  height:20px;
 `;
 
 const VerticalContainer = styled.div`
@@ -391,7 +392,7 @@ const updateMode = useCallback(async (newMode:string) => {
                 ref={(input) => { if (input) setTimeout(()=>{input.focus();},500 )}}
                 fullWidth
                 style={{paddingRight:50}}
-                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health{isMobile?'':', cook a dinner'}...</span></>}
+                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health{isMobile?'':', prepare a dinner'}...</span></>}
                 multiline={isMobile?true:false}
                 maxRows={isMobile?4:1}
                 focused
