@@ -299,7 +299,8 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
 
   const onSend = useCallback(async () => {
     setLoading(true);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/prayer/request?request=${request}`)
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/prayer/request?request=${request}`)
+    const res = await fetch(`/api/request?request=${request}`)
     const data = await res.json();
     setLoading(false);
     // console.log("GOt data", data)
@@ -312,7 +313,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
   }, [request]);
   //saves the changes to the session on the local web server. 
   const updateMode = useCallback(async (newMode: number) => {
-    setLocalMode(newMode==1?'dark':'light');
+    setLocalMode(newMode == 1 ? 'dark' : 'light');
     await fetch(`/api/session/save`,
       {
         method: 'POST',
@@ -321,17 +322,17 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
         },
         body: JSON.stringify({ session: { dark: newMode } })
       });
-    console.log("updateMode", newMode);  
+    console.log("updateMode", newMode);
   }, []);
 
-  useEffect( () => {
+  useEffect(() => {
     const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
     if (localMode == "unknown") {
       //setLocalMode(darkModeQuery.matches ? 'dark' : 'light');
       document.body.setAttribute("data-theme", darkModeQuery.matches ? 'dark' : 'light');
     }
     if (localMode == 'unknown') {
-      updateMode(darkModeQuery.matches ? 1 : 0 )
+      updateMode(darkModeQuery.matches ? 1 : 0)
     }
   }, [localMode, session.dark, updateMode]);
 
@@ -417,12 +418,12 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
             <GlobalStyle $light={localMode == "light"} />
             <ModeSwitch>
               <Button color={"inherit"} onClick={() => {
-               // setLocalMode(localMode=="dark"?"light":"dark");
-               // setModeIsSet(true);
-                updateMode(localMode=="dark"?0:1);
-              
+                // setLocalMode(localMode=="dark"?"light":"dark");
+                // setModeIsSet(true);
+                updateMode(localMode == "dark" ? 0 : 1);
+
               }}>
-                {localMode=='dark' ? <LightModeTwoToneIcon fontSize="small" /> : <ModeNightTwoToneIcon fontSize="small"/>}
+                {localMode == 'dark' ? <LightModeTwoToneIcon fontSize="small" /> : <ModeNightTwoToneIcon fontSize="small" />}
               </Button>
             </ModeSwitch>
             <SpreadOut>
