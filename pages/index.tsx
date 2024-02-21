@@ -42,7 +42,7 @@ const Welcome = styled.div<IProps>`
   text-align: center;
   //min-height:100px;
   padding-top:${({isMobile})=>isMobile?20:40}px;
-  padding-bottom:20px;
+  padding-bottom:30px;
   @media (max-width: 900px) {
     font-size: 1.8rem;
     padding-left:20px;
@@ -54,7 +54,7 @@ const Subtitle = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
   text-align: center;
-  min-height:50px;
+  min-height:20px;
   //padding-top:3px;
   //padding-bottom:20px;
   @media (max-width: 900px) {
@@ -70,7 +70,7 @@ const Subtitle2 = styled.div`
   font-size: 0.8rem;
   font-weight: 500;
   text-align: center;
-  min-height:100px;
+  min-height:90px;
   //padding-top:3px;
   //padding-bottom:20px;
   @media (max-width: 900px) {
