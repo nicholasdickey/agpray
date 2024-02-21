@@ -80,9 +80,9 @@ const VerticalContainer = styled.div`
   background-color: var(--background);
   //padding-right:50px;
   input{
-    margin-top:6px;
+    //margin-top:6px;
     color: var(--text) !important;
-    height:60px;
+    //height:60px;
   }
   
   &.MuiFormHelperText-root{
@@ -359,10 +359,10 @@ const updateMode = useCallback(async (newMode:string) => {
               <TextField
                 fullWidth
                 style={{paddingRight:50}}
-                helperText={<><span style={{ color: "#776",height:22 }}> Examples: to find a job, grateful for my health...</span></>}
+                helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
                 maxRows={isMobile?4:1}
-                color="success" focused sx={{ m: 3,h:5 }} onChange={(event: any) => { setRequest(event.target.value) }}
+                color="success" focused sx={{ m: 3 }} onChange={(event: any) => { setRequest(event.target.value) }}
                 label={`Type your prayer topic:`} variant="standard" value={request}
                 InputProps={{
                   endAdornment: (
