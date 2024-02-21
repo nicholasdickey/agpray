@@ -319,7 +319,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ session: { mode: newMode } })
+        body: JSON.stringify({ session: { dark: newMode } })
       });
     console.log("updateMode", newMode);  
   }, []);
