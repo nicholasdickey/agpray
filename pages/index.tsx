@@ -80,7 +80,9 @@ const VerticalContainer = styled.div`
   background-color: var(--background);
   //padding-right:50px;
   input{
+    margin-top:6px;
     color: var(--text) !important;
+    height:40px;
   }
   
   &.MuiFormHelperText-root{
@@ -356,7 +358,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
-                style={{paddingRight:50,height:140}}
+                style={{paddingRight:50}}
                 helperText={<><span style={{ color: "#776",height:22 }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
                 maxRows={isMobile?4:1}
