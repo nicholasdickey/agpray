@@ -356,7 +356,7 @@ const updateMode = useCallback(async (newMode:string) => {
             <VerticalContainer><Container maxWidth="sm">
               <TextField
                 fullWidth
-                style={{paddingRight:50}}
+                style={{paddingRight:50,height:140}}
                 helperText={<><span style={{ color: "#776" }}> Examples: to find a job, grateful for my health...</span></>}
                 multiline={isMobile?true:false}
                 maxRows={isMobile?4:1}
