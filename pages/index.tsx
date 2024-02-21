@@ -441,7 +441,7 @@ const updateMode = useCallback(async (newMode:string) => {
            
             </VerticalContainer>
             </div>
-            <Subtitle2>Stay in touch with the Holy Spirit all day and be inspired with every moment.</Subtitle2>
+            <Subtitle2>Stay in touch with the Holy Spirit and be inspired with every moment.</Subtitle2>
             </SpreadOut>
             {isMobile && false && <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
               <BottomNavigation
