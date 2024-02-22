@@ -55,7 +55,8 @@ const getReport = async (): Promise<{ success: boolean, report: any }> => {
 const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid:string,reportItem:any){
   let cs=false;  
   let bot=false;
-  
+  let stamp=reportItem.stamp;
+  console.log("reportItem.stamp:",reportItem);
   const items=reportItem.items.map((record:any,i:number)=>{
       console.log("record:",record);
         let {url,name:eventName,utm_content='',request='',params='',mode='',fbclid='',prayer='',stamp='',player='',slug='',view='',time='',isMobile,ssrTime,userId,t1,findexarxid,story,sid,ua}=record;
@@ -106,7 +107,7 @@ const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid
                   aria-controls="panel4bh-content"
                   id="panel4bh-header"
                 >
-                  <Typography sx={{ width: '33%', flexShrink: 0,color:bot?"#004400":items.length>1&&cs?"#afa":"888" }}>{name}</Typography>
+                  <Typography sx={{ width: '63%', flexShrink: 0,color:bot?"#004400":items.length>1&&cs?"#afa":"888" }}>{reportItem.stamp}&nbsp;:&nbsp;{name}</Typography> <Typography sx={{ width: '63%', flexShrink: 0,color:bot?"#004400":items.length>1&&cs?"#faa":"888" }}>{reportItem.items.length}&nbsp;&nbsp;</Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ borderRadius: 14 }}>
                   <Box sx={{ my: 4 }}>
