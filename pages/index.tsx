@@ -245,22 +245,20 @@ const ModeSwitch = styled.div`
     min-height: 20px;
   }
   `;
-const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400','500', '700'], style: ['normal', 'italic'] })
+const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'], style: ['normal', 'italic'] })
 interface Props {
-  //sessionid: string;
   utm_content: string;
   t1: number;
-  //dark: number;
+  dark: number;
   isbot: boolean;
   isfb: boolean;
   fbclid: string;
   isMobile: boolean;
-  options: Options;
 }
-export default function Home({ options: session, utm_content, isMobile }: Props) {
+export default function Home({ dark, utm_content, isMobile }: Props) {
   const muiTheme = useTheme();
-  const { dark, sessionid } = session;
-  const [localMode, setLocalMode] = useState(session.dark != -1 ? session.dark == 1 ? 'dark' : 'light' : "unknown")
+  const [loaded, setLoaded] = useState(false);
+  const [localMode, setLocalMode] = useState(dark != -1 ? dark == 1 ? 'dark' : 'light' : "unknown")
   const [request, setRequest] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [prayer, setPrayer] = React.useState('');
@@ -268,8 +266,8 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
   const [value, copy] = useCopyToClipboard();
   const [responseCopied, setResponseCopied] = useState(false);
 
-  console.log("session:", session);
-  console.log("localMode:", localMode);
+
+  //console.log("localMode:", localMode);
   useEffect(() => {
     setPrayer(response.replaceAll("<p>", "").replaceAll("</p>", "\n\n").replaceAll("<br>", "\n\n").replaceAll("<br/>", "").replaceAll("<br />", "").replaceAll("<div>", "").replaceAll("</div>", "").replaceAll("<div/>", "").replaceAll("<div />", ""));
   }, [response]);
@@ -287,20 +285,23 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
   }, [responseCopied]);
 
 
-  const recordEvent = useCallback(async (sessionid: string, name: string, params: string) => {
+  const recordEvent = useCallback(async (name: string, params: string) => {
     try {
-      const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&params=${encodeURIComponent(params)}`;
+      const url = `/api/record-event?name=${encodeURIComponent(name)}&params=${encodeURIComponent(params)}`;
       await fetch(url);
     }
     catch (e) {
       console.log("recordEvent", e);
 
     }
-  }, [request, response, sessionid]);
+  }, [request, response]);
 
   useEffect(() => {
-    recordEvent(sessionid, 'prayer-loaded', `{"utm_content":"${utm_content}"}`);
-  },[]);
+    if (!loaded) {
+      setLoaded(true);
+      recordEvent('prayer-loaded', `{"utm_content":"${utm_content}"}`);
+    }
+  }, []);
 
   const onSend = useCallback(async () => {
     setLoading(true);
@@ -312,7 +313,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
     if (data.success) {
       const params = `{"utm_content":"${utm_content}","request":"${encodeURIComponent(request)}","prayer":"${encodeURIComponent(data.prayer)}"}`;
 
-      await recordEvent(sessionid, 'prayer-request', params);
+      await recordEvent('prayer-request', params);
       setResponse(data.prayer);
     }
   }, [request]);
@@ -339,7 +340,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
     if (localMode == 'unknown') {
       updateMode(darkModeQuery.matches ? 1 : 0)
     }
-  }, [localMode, session.dark, updateMode]);
+  }, [localMode, updateMode]);
 
   useEffect(() => {
     //@ts-ignore
@@ -356,14 +357,14 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
 
   const onShare = useCallback((url: string) => {
     try {
-      recordEvent(sessionid as string || "", `prayer-share`, `{"url":"${url}","utm_content":"${utm_content}"}`)
+      recordEvent(`prayer-share`, `{"url":"${url}","utm_content":"${utm_content}"}`)
         .then((r: any) => {
           console.log("recordEvent", r);
         });
     } catch (x) {
       console.log('recordEvent', x);
     }
-  }, [sessionid, utm_content]);
+  }, [utm_content]);
 
   //console.log("Prayer:", prayer);
   const ogTitle = "Pentecostal Prayer";
@@ -426,7 +427,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
                 // setLocalMode(localMode=="dark"?"light":"dark");
                 // setModeIsSet(true);
                 updateMode(localMode == "dark" ? 0 : 1);
-                setTimeout(()=>recordEvent(sessionid as string || "", `prayer-mode`, `{"mode":"${localMode == "dark" ? "light" : "dark"}","utm_content":"${utm_content}"}`),1);
+                setTimeout(() => recordEvent(`prayer-mode`, `{"mode":"${localMode == "dark" ? "light" : "dark"}","utm_content":"${utm_content}"}`), 1);
               }}>
                 {localMode == 'dark' ? <LightModeTwoToneIcon fontSize="small" /> : <ModeNightTwoToneIcon fontSize="small" />}
               </Button>
@@ -487,7 +488,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
                     message="Copied to clipboard"
                     action={action}
                   />
-                  <CrossContainer><Cross><img src={localMode=='dark'?"/pente2.png":"/pente.png"} width="40" /></Cross></CrossContainer>
+                  <CrossContainer><Cross><img src={localMode == 'dark' ? "/pente2.png" : "/pente.png"} width="40" /></Cross></CrossContainer>
 
                 </VerticalContainer>
               </div>
@@ -530,15 +531,7 @@ export const getServerSideProps = withSessionSsr(
       var randomstring = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       let fresh = false;
 
-      const recordEvent = async (sessionid: string, name: string, params: string) => {
-        try {
-          const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&params=${encodeURIComponent(params)}`;
-          await fetch(url);
-        }
-        catch (e) {
-          console.log("recordEvent", e);
-        }
-      };
+
       let startoptions = context.req.session?.options || null;
       ``
       if (!startoptions) {
@@ -554,29 +547,35 @@ export const getServerSideProps = withSessionSsr(
       if (!options.sessionid) {
         options.sessionid = randomstring();
       }
+      const recordEvent = async (name: string, params: string) => {
+        try {
+          const sessionid = options.sessionid;
+          const url = `${process.env.NEXT_PUBLIC_LAKEAPI}/api/v41/findexar/record-event?name=${encodeURIComponent(name)}&sessionid=${encodeURIComponent(sessionid)}&params=${encodeURIComponent(params)}`;
+          console.log("ssr recordEvent", name, params, url)
 
-      let sessionid = options.sessionid;
-      // let sessionid = getCookie('sessionid', { req: context.req, res: context.res });
-
-
+          await fetch(url);
+        }
+        catch (e) {
+          console.log("recordEvent", e);
+        }
+      };
       if (!botInfo.bot) {
         try {
-          await recordEvent(sessionid, `ssr-prayer${fresh ? '-init' : ''}`, `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
+          await recordEvent(`ssr-prayer${fresh ? '-init' : ''}`, `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
         } catch (x) {
           console.log('ssr-prayer-init-error', x);
         }
       }
       if (botInfo.bot) {
         try {
-          await recordEvent(sessionid, 'ssr-bot-prayer-landing', `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
+          await recordEvent('ssr-bot-prayer-landing', `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
         } catch (x) {
           console.log('ssr-bot-prayer-landing-init-error', x);
         }
       }
       return {
         props: {
-          //sessionid,
-          options,
+          dark: options.dark,
           fbclid,
           utm_content,
           isbot: botInfo.bot,
