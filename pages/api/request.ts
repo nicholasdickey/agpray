@@ -8,7 +8,7 @@ const api_key = process.env.LAKE_API_KEY;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if(!req.session||!req.session.options){
-        res.status(401).send({ message: 'No session found' });
+        res.status(401).send({ message: 'Go away!' });
         return;
     }
     let options: Options = req.session.options;
