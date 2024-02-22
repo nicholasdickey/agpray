@@ -255,7 +255,7 @@ interface Props {
   fbclid: string;
   isMobile: boolean;
 }
-export default function Home({ dark, utm_content, isMobile }: Props) {
+export default function Home({t1, dark, utm_content, isMobile }: Props) {
   const muiTheme = useTheme();
   const [loaded, setLoaded] = useState(false);
   const [localMode, setLocalMode] = useState(dark != -1 ? dark == 1 ? 'dark' : 'light' : "unknown")
@@ -267,7 +267,7 @@ export default function Home({ dark, utm_content, isMobile }: Props) {
   const [responseCopied, setResponseCopied] = useState(false);
 
 
-  //console.log("localMode:", localMode);
+
   useEffect(() => {
     setPrayer(response.replaceAll("<p>", "").replaceAll("</p>", "\n\n").replaceAll("<br>", "\n\n").replaceAll("<br/>", "").replaceAll("<br />", "").replaceAll("<div>", "").replaceAll("</div>", "").replaceAll("<div/>", "").replaceAll("<div />", ""));
   }, [response]);
@@ -299,7 +299,11 @@ export default function Home({ dark, utm_content, isMobile }: Props) {
   useEffect(() => {
     if (!loaded) {
       setLoaded(true);
-      recordEvent('prayer-loaded', `{"utm_content":"${utm_content}"}`);
+      
+      
+      const t2 = t1>0?new Date().getTime():0;
+      
+      recordEvent('prayer-loaded', `{"time":"${t2-t1}","utm_content":"${utm_content}"}`);
     }
   }, []);
 
@@ -517,7 +521,7 @@ export default function Home({ dark, utm_content, isMobile }: Props) {
 export const getServerSideProps = withSessionSsr(
   async function getServerSideProps(context: GetServerSidePropsContext): Promise<any> {
     try {
-
+      const t1 = new Date().getTime();
       let { fbclid, utm_content, dark }:
         { fbclid: string, utm_content: string, dark: number } = context.query as any;
       utm_content = utm_content || '';
@@ -568,7 +572,7 @@ export const getServerSideProps = withSessionSsr(
       }
       if (botInfo.bot) {
         try {
-          await recordEvent('ssr-bot-prayer-landing', `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
+          await recordEvent('ssr-bot-prayer', `{"fbclid":"${fbclid}","ua":"${ua}","utm_content":"${utm_content}"}`);
         } catch (x) {
           console.log('ssr-bot-prayer-landing-init-error', x);
         }
@@ -581,7 +585,7 @@ export const getServerSideProps = withSessionSsr(
           isbot: botInfo.bot,
           isfb: botInfo.fb || fbclid ? 1 : 0,
           //dark: dark || 0,
-          t1: 0,
+          t1,
           isMobile
         }
       }
