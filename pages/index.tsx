@@ -153,6 +153,7 @@ const VerticalContainer = styled.div`
   }
 `;
 const SpreadOut = styled.div`
+  font-family: 'Roboto', 'Arial', Arial, sans-serif;
   height:100%;
   display:flex;
   flex-direction:column;
@@ -244,7 +245,7 @@ const ModeSwitch = styled.div`
     min-height: 20px;
   }
   `;
-const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '700'], style: ['normal', 'italic'] })
+const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400','500', '700'], style: ['normal', 'italic'] })
 interface Props {
   //sessionid: string;
   utm_content: string;
@@ -482,7 +483,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
                     message="Copied to clipboard"
                     action={action}
                   />
-                  <CrossContainer><Cross><img src="/pente2.png" width="40" /></Cross></CrossContainer>
+                  <CrossContainer><Cross><img src={localMode=='dark'?"/pente2.png":"/pente.png"} width="40" /></Cross></CrossContainer>
 
                 </VerticalContainer>
               </div>
