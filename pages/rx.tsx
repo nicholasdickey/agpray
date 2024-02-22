@@ -58,7 +58,7 @@ const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid
   
   const items=reportItem.items.map((record:any,i:number)=>{
       console.log("record:",record);
-        let {url,name:eventName,utm_content='',request='',params='',fbclid='',prayer='',stamp='',player='',slug='',view='',time='',isMobile,ssrTime,userId,t1,findexarxid,story,sid,ua}=record;
+        let {url,name:eventName,utm_content='',request='',params='',mode='',fbclid='',prayer='',stamp='',player='',slug='',view='',time='',isMobile,ssrTime,userId,t1,findexarxid,story,sid,ua}=record;
        
         request=decodeURIComponent(request);
         prayer=decodeURIComponent(prayer).replaceAll('<p>','').replaceAll('</p>','');
@@ -91,6 +91,7 @@ const ReportItem= function(name:string,expanded:string,setExpanded:any,sessionid
                 {findexarxid&&<Typography>findexarxid:{findexarxid}</Typography>}
                 {story&&<Typography>story:{story}</Typography>}
                 {isMobile&&<Typography>isMobile:{isMobile}</Typography>}
+                {mode&&<Typography>mode:{mode}</Typography>}
 
 
                 

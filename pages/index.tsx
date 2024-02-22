@@ -426,7 +426,7 @@ export default function Home({ options: session, utm_content, isMobile }: Props)
                 // setLocalMode(localMode=="dark"?"light":"dark");
                 // setModeIsSet(true);
                 updateMode(localMode == "dark" ? 0 : 1);
-                setTimeout(()=>recordEvent(sessionid as string || "", `prayer-mode`, `{"mode":"${localMode == "dark" ? "light" : "dark"}",utm_content:"${utm_content}"}`),1);
+                setTimeout(()=>recordEvent(sessionid as string || "", `prayer-mode`, `{"mode":"${localMode == "dark" ? "light" : "dark"}","utm_content":"${utm_content}"}`),1);
               }}>
                 {localMode == 'dark' ? <LightModeTwoToneIcon fontSize="small" /> : <ModeNightTwoToneIcon fontSize="small" />}
               </Button>
