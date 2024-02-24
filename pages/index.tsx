@@ -374,7 +374,7 @@ export default function Home({t1, dark, utm_content, isMobile }: Props) {
   const ogTitle = "Pentecostal Prayer";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
-  const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/wt-logo-512.png`;
+  const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/RoadSignPray50.png`;
   const noindex = +(process.env.NEXT_PUBLIC_NOINDEX || "0");
   const action = (
     <React.Fragment>
