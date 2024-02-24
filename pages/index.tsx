@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useRef } from 'react';
 import Head from "next/head";
 import Script from "next/script";
 import { GetServerSidePropsContext } from "next";
-import { getCookie, setCookie } from 'cookies-next';
+//import { getCookie, setCookie } from 'cookies-next';
 import { Roboto } from 'next/font/google';
 //styled-components
 import { styled, ThemeProvider } from "styled-components";
@@ -299,10 +299,7 @@ export default function Home({t1, dark, utm_content, isMobile }: Props) {
   useEffect(() => {
     if (!loaded) {
       setLoaded(true);
-      
-      
       const t2 = t1>0?new Date().getTime():0;
-      
       recordEvent('prayer-loaded', `{"time":"${t2-t1}","utm_content":"${utm_content}"}`);
     }
   }, []);
@@ -374,7 +371,7 @@ export default function Home({t1, dark, utm_content, isMobile }: Props) {
   const ogTitle = "Pentecostal Prayer";
   const ogDescription = "Discover spiritual upliftment with our dedicated prayer composer for Pentecostal followers. This unique app offers personalized prayers, inspired by the Holy Spirit, to guide you in your faith journey. Whether for guidance, healing, or thanksgiving, our tool helps you connect deeply with God's word and power, enriching your prayer life with daily devotionals tailored to your spiritual needs.";
   const ogUrl = "https://www.pray50.com";
-  const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/RoadSignPray50.png`;
+  const ogImage = `${process.env.NEXT_PUBLIC_SERVER}/p50.png`;
   const noindex = +(process.env.NEXT_PUBLIC_NOINDEX || "0");
   const action = (
     <React.Fragment>
