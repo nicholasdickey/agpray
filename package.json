@@ -21,7 +21,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-web-share": "^2.0.2",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",
